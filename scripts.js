@@ -6,6 +6,10 @@
 //
 // Scripts
 // 
+const idiomaActual = document.getElementById('navbarDropdownIdiomas');
+const listaIdiomas = document.getElementById('idiomas');
+const idiomas = document.getElementsByClassName('opcion');
+const opcionesArray = document.querySelectorAll('.opcion');
 
 window.addEventListener('DOMContentLoaded', event => {
 
@@ -36,7 +40,7 @@ window.addEventListener('DOMContentLoaded', event => {
             target: '#mainNav',
             rootMargin: '0px 0px -40%',
         });
-    };
+    }; 
 
     // Collapse responsive navbar when toggler is visible
     const navbarToggler = document.body.querySelector('.navbar-toggler');
@@ -51,4 +55,51 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
 
+});
+
+
+opcionesArray.forEach((opcion) => {
+    // Agregamos la "e" (evento) para poder controlarlo
+    opcion.addEventListener('click', (e) => {
+
+        e.preventDefault(); // Evitamos que el enlace haga su acción por defecto (navegar)
+        
+        // 2. Buscamos el <span> dentro de esta opción usando querySelector (es más seguro y moderno)
+        const spanText = opcion.querySelector('span');
+        
+        // 3. Verificamos que sí encontró el span para evitar errores
+        if (spanText) {
+            // Usamos trim() para quitar espacios vacíos al inicio o final por si acaso
+            const idioma = spanText.textContent.trim().toLowerCase();
+            establecerIdioma(idioma);
+        }
+    });
+});
+
+function establecerIdioma(idioma) {
+    idiomaActual.getElementsByTagName('img')[0].src = `assets/banderas/${idioma}.png`;
+    switch (idioma) {
+        case 'español':
+            break;
+        case 'english':
+            break;
+        case 'français':
+            break;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    switch(navigator.language.slice(0,2)){
+        case 'es':
+            establecerIdioma('español');
+            break;
+        case 'en':
+            establecerIdioma('english');
+            break;
+        case 'fr':
+            establecerIdioma('français');
+            break;
+        default:
+            establecerIdioma('español');
+    }
 });
